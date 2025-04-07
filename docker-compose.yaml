@@ -1,0 +1,30 @@
+version: "3.3"
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: local.DockerFile
+    command: "bin/setup"
+    environment:
+      - RAILS_ENV=development
+    ports:
+    - 3010:3000
+    volumes:
+    - .:/src
+    depends_on:
+    - postgres
+    
+  postgres:
+    image: postgres:16.1
+    restart: unless-stopped
+    ports:
+    - 6010:5432
+    volumes:
+    - postgres-data:/var/lib/postgresql/data
+    environment:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
+
+volumes:
+  postgres-data:
