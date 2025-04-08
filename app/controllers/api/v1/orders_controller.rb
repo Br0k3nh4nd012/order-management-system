@@ -5,20 +5,35 @@ class Api::V1::OrdersController < ApplicationController
 
     # GET /api/v1/orders
     def index
-        hash = Order.all.includes(:order_items).map do |order|
-                   {
-                       id: order.id,
-                       customer_id: order.customer_id,
-                       status: order.status,
-                       items: order.order_items.map do |item|
-                           {
-                               item_id: item.item_id,
-                               quantity: item.quantity,
-                               price: item.price
-                           }
-                       end
-                   }
-               end
+        page = params[:page] || 1
+        per_page = params[:per_page] || 10
+        
+        orders = Order.all.includes(:order_items).page(page).per(per_page)
+        total_pages = orders.total_pages
+        total_count = orders.total_count
+        
+        hash = {
+            orders: orders.map do |order|
+                {
+                    id: order.id,
+                    customer_id: order.customer_id,
+                    status: order.status,
+                    items: order.order_items.map do |item|
+                        {
+                            item_id: item.item_id,
+                            quantity: item.quantity,
+                            price: item.price
+                        }
+                    end
+                }
+            end,
+            meta: {
+                current_page: page.to_i,
+                total_pages: total_pages,
+                total_count: total_count,
+                per_page: per_page.to_i
+            }
+        }
         render json: hash, status: :ok
     rescue => e
         render json: { error: e.message }, status: :unprocessable_entity
