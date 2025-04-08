@@ -5,11 +5,13 @@ class OrderCreationService
     @params = params
     @order = nil
     @error = nil
+    @customer = nil
   end
 
   def execute
     puts @params
     validate_items
+    validate_customer
     return self if @error.present?
 
     ActiveRecord::Base.transaction do
@@ -62,14 +64,14 @@ class OrderCreationService
     @params[:items].each do |item|
       item_record = InventoryItem.find(item[:item_id])
       if item_record.quantity < item[:quantity].to_i
-        @error = "Insufficient stock for item #{item_record.name}"
+        @error = "Insufficient stock for item #{item_record.item.name}"
         return
       end
     end
   end
 
   def create_order
-    @order = Order.create!(@params.except(:items))
+    @order = @customer.orders.create!
   end
 
   def create_order_items
@@ -90,4 +92,7 @@ class OrderCreationService
     @order.total_price = @order.order_items.sum(:price)
     @order.save!
   end 
+  def validate_customer
+    @customer = Customer.find(@params[:customer_id])
+  end
 end

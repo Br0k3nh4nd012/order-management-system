@@ -18,17 +18,22 @@ class Order < ApplicationRecord
 
     ## Callbacks ##
     before_validation :set_status, on: :create
+    after_commit :follow_up_actions, if: -> { previous_changes.key?('status') }
 
 
-    def update_status(status)
+    def follow_up_actions
+        OrderStatusChangeJob.perform_later(id)
+    end
+
+    def update_status(_status)
         puts "Updating status to #{status}"
-        if status == 0
+        if _status == 0 || _status == 'cancelled'
             self.status = :cancelled
+            update_inventory
         else
-            self.status = status
+            self.status = _status
         end
         save!
-        update_inventory
     end
 
     def notify_customer

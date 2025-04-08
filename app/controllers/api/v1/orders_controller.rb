@@ -27,9 +27,7 @@ class Api::V1::OrdersController < ApplicationController
     # POST /api/v1/orders
     # params: { order: { customer_id:, items: [{item_id:, quantity:}] } }
     def create
-        puts params
         params["order"]["items"] = params["items"]
-        puts order_params
         result = OrderCreationService.new(order_params).execute
         if result.success?
             render json: result.order, status: :created
