@@ -2,6 +2,7 @@ FactoryBot.define do
   # Customer Factory
   factory :customer do
     sequence(:email) { |n| "customer#{n}@example.com" }
+    sequence(:phone) { |n| "+1234567890#{n}" }
     sequence(:name) { |n| "Customer #{n}" }
   end
 

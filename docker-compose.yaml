@@ -6,8 +6,6 @@ services:
       context: .
       dockerfile: local.DockerFile
     command: "bin/setup"
-    environment:
-      - RAILS_ENV=development
     ports:
     - 3010:3000
     volumes:

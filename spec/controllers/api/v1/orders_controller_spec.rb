@@ -19,8 +19,8 @@ RSpec.describe Api::V1::OrdersController, type: :controller do
 
     it 'returns all orders' do
       json_response = JSON.parse(response.body)
-      expect(json_response.size).to eq(1)
-      expect(json_response.first['id']).to eq(order.id)
+      expect(json_response['orders'].size).to eq(1)
+      expect(json_response['orders'].first['id']).to eq(order.id)
     end
   end
 

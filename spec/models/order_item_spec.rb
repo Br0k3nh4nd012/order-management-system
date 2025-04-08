@@ -28,7 +28,7 @@ RSpec.describe OrderItem, type: :model do
 
         it 'raises an error' do
           expect {
-            order_item.save
+            order_item.save!
           }.to raise_error(ActiveRecord::RecordInvalid)
         end
       end
