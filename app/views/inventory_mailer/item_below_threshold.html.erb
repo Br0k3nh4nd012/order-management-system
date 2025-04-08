@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Inventory Alert: Item Below Threshold</h1>
+    
+    <p>This is an automated notification to inform you that the following item has fallen below its threshold value:</p>
+
+    <div style="margin: 20px; padding: 15px; border: 1px solid #ddd;">
+      <h2><%= @item.name %></h2>
+      <p><strong>Current Quantity:</strong> <%= @inventory_item.quantity %></p>
+      <p><strong>Threshold Value:</strong> <%= @inventory_item.threshold %></p>
+    </div>
+
+    <p>Please take necessary action to restock this item.</p>
+
+    <p>
+      Best regards,<br>
+      Inventory Management System
+    </p>
+  </body>
+</html>

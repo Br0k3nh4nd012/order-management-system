@@ -25,6 +25,33 @@ services:
     environment:
         POSTGRES_USER: postgres
         POSTGRES_PASSWORD: postgres
+  
+  local-redis:
+    image: redis
+    container_name: local-redis
+    ports:
+      - 6379:6379
+  
+  sidekiq:
+    build:
+      context: .
+      dockerfile: local.DockerFile
+    command: bash -c "sleep 2 && bundle install && bundle exec sidekiq"
+    environment:
+      - RAILS_ENV=development
+    volumes:
+    - .:/src
+    depends_on:
+    - postgres
+    - local-redis
+
+  mail:
+    container_name: mail
+    image: schickling/mailcatcher
+    ports:
+      - 3003:1080
+    volumes:
+      - .:/src
 
 volumes:
   postgres-data:

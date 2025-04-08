@@ -3,7 +3,7 @@ class InventoryItem < ApplicationRecord
     belongs_to :item
 
     ## Validations ##
-    validates :quantity, presence: true
+    validates :quantity, presence: true, numericality: { greater_than_or_equal_to: 0 }
     validates :item, presence: true, uniqueness: true
     
     ## Callbacks ##
@@ -11,8 +11,8 @@ class InventoryItem < ApplicationRecord
 
     ## Instance Methods ##
     def notify_low_stock
-        if quantity < threshold
-            puts "Low stock alert: #{item.name} has only #{quantity} left"
-        end
+        return if quantity >= threshold
+        
+        InventoryMailer.item_below_threshold(item).deliver_later
     end
 end

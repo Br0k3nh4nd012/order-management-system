@@ -8,7 +8,7 @@ class OrderItem < ApplicationRecord
     after_create_commit :update_item_stock
 
     ## Validations ##
-    validates :quantity, presence: true
+    validates :quantity, presence: true, numericality: { greater_than: 0 }
     validates :item, presence: true
     validates :price, presence: true
     validates :item_id, uniqueness: { scope: :order_id }
