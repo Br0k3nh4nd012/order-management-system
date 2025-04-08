@@ -1,7 +1,9 @@
 class Customer < ApplicationRecord
-    has_many :orders
+    ## Associations ##
+    has_many :orders, dependent: :destroy
 
-    def notify_order_status_change(order)
-        
-    end
+    ## Validations ##
+    validates :name, presence: true
+    validates :email, presence: true, uniqueness: true
+    validates :phone, presence: true, uniqueness: true
 end

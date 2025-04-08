@@ -12,12 +12,12 @@ class OrderStatusChangeJob < ApplicationJob
     # update the analytics
 
     # update the analytics
-    puts "Updating analytics for order #{args[0]}"
+    puts "Updating analytics for order #{order_id}"
 
 
 
     #notify external systems
-    puts "Notifying external systems for order #{args[0]}"
+    puts "Notifying external systems for order #{order_id}"
 
 
   end

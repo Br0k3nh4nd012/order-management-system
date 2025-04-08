@@ -5,7 +5,7 @@ class Api::V1::OrdersController < ApplicationController
 
     # GET /api/v1/orders
     def index
-        hash = Order.all.map do |order|
+        hash = Order.all.includes(:order_items).map do |order|
                    {
                        id: order.id,
                        customer_id: order.customer_id,

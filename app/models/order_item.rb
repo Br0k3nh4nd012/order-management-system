@@ -5,7 +5,7 @@ class OrderItem < ApplicationRecord
 
     ## Callbacks ##
     before_validation :set_price
-    after_create_commit :update_item_stock
+    after_create :update_item_stock
 
     ## Validations ##
     validates :quantity, presence: true, numericality: { greater_than: 0 }

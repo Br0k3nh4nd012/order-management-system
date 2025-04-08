@@ -1,6 +1,6 @@
 class Order < ApplicationRecord
     ## Associations ##
-    has_many :order_items
+    has_many :order_items, dependent: :destroy
     belongs_to :customer
 
     
@@ -11,6 +11,7 @@ class Order < ApplicationRecord
         out_for_delivery: 3,
         delivered: 4
     }
+    attr_accessor :do_follow_up
 
     ## Validations ##
     validates :status, presence: true
@@ -18,7 +19,7 @@ class Order < ApplicationRecord
 
     ## Callbacks ##
     before_validation :set_status, on: :create
-    after_commit :follow_up_actions, if: -> { previous_changes.key?('status') }
+    after_commit :follow_up_actions, if: -> { previous_changes.key?('status') || do_follow_up }
 
 
     def follow_up_actions
@@ -44,6 +45,7 @@ class Order < ApplicationRecord
 
     def set_status
         self.status = :placed
+        self.do_follow_up = true
     end
 
     def update_inventory

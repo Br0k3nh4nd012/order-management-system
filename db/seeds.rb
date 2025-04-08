@@ -27,4 +27,6 @@ end
 customers.each do |customer|
   _order = Order.create!(customer: customer)
   _order.order_items.create!(item: items.sample, quantity: rand(1..5))
+  _order.total_price = _order.order_items.sum(:price)
+  _order.save!
 end

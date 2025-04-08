@@ -17,8 +17,9 @@
    docker-compose up
    ```
 3. Ensure all the services (Rails server, postgres, redis, Sidekiq, mail) are up and running successfully.
-4. Server is running at http://localhost:3010
-5. Email server is running at http://localhost:3003
+4. Server is running at http://localhost:3010.
+5. Email server is running at http://localhost:3003.
+6. Admin portal will be available at http://localhost:3010/admin for performing CRUD operations on Customer, Item, InventoryItem.
 
 
 ## System Architecture & Worflow
