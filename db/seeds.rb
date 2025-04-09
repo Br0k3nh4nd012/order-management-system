@@ -8,17 +8,20 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-items = Item.create!([
-  { name: "Paneer Butter Masala", price: 250 },
-  { name: "Veg Biryani", price: 180 },
-  { name: "Masala Dosa", price: 120 },
-  { name: "Roti", price: 50 },
-])
+items = 100.times.map do |i|
+  Item.create!(
+    name: "Item #{i + 1}",
+    price: rand(50..500)
+  )
+end
 
-customers = Customer.create!([
-  { name: "John Doe", email: "john@example.com" },
-  { name: "Jane Doe", email: "jane@example.com" },
-])
+customers = 100.times.map do |i|
+  Customer.create!(
+    name: "Customer #{i + 1}",
+    email: "customer#{i + 1}@example.com",
+    phone: "12345678#{i + 1}"
+  )
+end
 
 items.each do |item|
   InventoryItem.create!(item: item, quantity: 50, threshold: 10)

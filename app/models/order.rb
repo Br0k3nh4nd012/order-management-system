@@ -38,7 +38,7 @@ class Order < ApplicationRecord
     end
 
     def notify_customer
-        OrderStatusMailer.order_status_change(self).deliver_later
+        OrderStatusMailer.order_status_change(id).deliver_later
     end
 
     private

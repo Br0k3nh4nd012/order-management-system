@@ -9,7 +9,6 @@ class OrderCreationService
   end
 
   def execute
-    puts @params
     validate_items
     validate_customer
     return self if @error.present?
@@ -71,7 +70,7 @@ class OrderCreationService
   end
 
   def create_order
-    @order = @customer.orders.create!
+    @order = Order.create!(customer_id: @params[:customer_id])
   end
 
   def create_order_items
@@ -92,7 +91,10 @@ class OrderCreationService
     @order.total_price = @order.order_items.sum(:price)
     @order.save!
   end 
+
   def validate_customer
-    @customer = Customer.find(@params[:customer_id])
+    return if Customer.exists?(@params[:customer_id])
+
+    @error = "Customer not found"
   end
 end

@@ -14,7 +14,7 @@
 #
 default: &default
   adapter: postgresql
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 50 } %>
   host: postgres
   username: postgres
   password: postgres
